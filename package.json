@@ -1,0 +1,18 @@
+{
+  "name": "vocaloid-property-based-testing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CRUD de canciones Vocaloid validado con pruebas basadas en propiedades",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage test/*.test.js",
+    "demo": "node examples/demo.js"
+  },
+  "devDependencies": {
+    "fast-check": "4.10.2"
+  }
+}
