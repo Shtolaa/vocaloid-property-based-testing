@@ -16,6 +16,36 @@ npm run demo
 
 `npm ci` instala las versiones exactas del lockfile. Las pruebas usan `node:test` y `node:assert/strict`, incluidos en Node.js; fast-check es una dependencia de desarrollo.
 
+## Uso interactivo por terminal
+
+Desde la raíz del proyecto, ejecuta:
+
+```sh
+npm start
+```
+
+El programa muestra este menú en español y vuelve a él después de cada operación:
+
+```text
+1. Crear canción
+2. Obtener por ID
+3. Listar canciones
+4. Actualizar canción
+5. Eliminar canción
+0. Salir
+```
+
+- **Crear** solicita título, Vocaloid, productor y duración en segundos; muestra el ID asignado.
+- **Obtener** solicita un ID y muestra todos los datos, o informa si no existe.
+- **Listar** muestra la cantidad de canciones y sus datos.
+- **Actualizar** muestra los datos actuales y solicita los nuevos. Pulsa Enter sin escribir para conservar un campo; completar todos los campos en blanco no modifica la canción.
+- **Eliminar** muestra la canción y exige confirmar con `s` (mayúscula o minúscula). Cualquier otra respuesta cancela.
+- **Salir** termina la sesión. Los datos se pierden al cerrar el programa, ya que el almacenamiento es en memoria.
+
+IDs y duraciones deben escribirse como enteros decimales: `1`, `240`, etc. No se aceptan valores como `1e2`, `0x10`, fracciones o texto. Las reglas del catálogo validan los rangos. Si hay un error de entrada, se informa sin cerrar el programa ni guardar cambios parciales; el menú vuelve a mostrarse. Si se cierra la entrada durante una operación, esta no se aplica.
+
+El menú usa únicamente módulos nativos de Node.js (`readline`) y reutiliza `SongCatalog`; no duplica las reglas del dominio ni agrega dependencias. También admite entrada por líneas desde stdin, lo que permite probar sesiones completas con procesos reales.
+
 ## Dominio y reglas
 
 La entidad principal es una canción con los siguientes campos:
@@ -85,7 +115,7 @@ En estas pruebas se ejecutan **300 casos por propiedad**, con una instancia nuev
 
 Propiedades adicionales: aislamiento de entradas/resultados, ausencia de cambios ante IDs inexistentes, rechazo atómico de datos inválidos, prohibición de editar IDs y validación de los IDs recibidos.
 
-Hay **10 pruebas basadas en propiedades** y **1 prueba por ejemplos** para los límites de duración y textos japoneses. La prueba por ejemplos complementa a las propiedades, no sustituye ninguna operación CRUD.
+Hay **10 pruebas basadas en propiedades** y **1 prueba por ejemplos** para los límites de duración y textos japoneses. La prueba por ejemplos complementa a las propiedades, no sustituye ninguna operación CRUD. Además, `test/cli.test.js` incluye **9 pruebas de integración** que ejecutan el programa en un proceso real y envían líneas a stdin: CRUD completo, confirmación/cancelación, validaciones, recuperación tras errores y cierre de entrada.
 
 ### Ejemplo de propiedad
 
@@ -123,6 +153,9 @@ Esos valores son ilustrativos: reemplázalos por los del fallo real. Para repeti
 
 ```text
 src/song-catalog.js      Implementación y validación del dominio.
+src/cli.js               Menú interactivo y lectura de entradas.
+src/main.js              Punto de entrada de npm start.
+test/cli.test.js          Sesiones completas del CRUD por terminal.
 test/helpers.js         Generadores y configuración de fast-check.
 test/create.test.js     Propiedad de creación.
 test/read.test.js       Propiedades de lectura y aislamiento.
