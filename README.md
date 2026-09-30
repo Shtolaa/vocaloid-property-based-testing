@@ -147,4 +147,6 @@ Las propiedades CRUD fueron escritas y ejecutadas antes de implementar los méto
 
 ## Entregable Git
 
-Este directorio es un repositorio Git local con código, pruebas, documentación y lockfile. `node_modules` queda excluido. Para entregar un enlace de GitHub/GitLab, publica el repositorio en tu cuenta; no se ha configurado ni publicado un remoto automáticamente.
+Repositorio público: [Shtolaa/vocaloid-property-based-testing](https://github.com/Shtolaa/vocaloid-property-based-testing).
+
+Incluye código, pruebas, documentación y lockfile. `node_modules` queda excluido. La rama principal de entrega es `main`; `develop` conserva la rama de desarrollo.
